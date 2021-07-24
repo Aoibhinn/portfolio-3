@@ -47,4 +47,13 @@ def validate_data(values):
     return True
 
 
+def update_survey_worksheet(data):
+    print('Updating survey worksheet...\n')
+    survey_worksheet = SHEET.worksheet('survey')
+    survey_worksheet.append_row(data)
+    print("survey worksheet successfully updated.\n")
+
+
 data = get_survey_data()
+survey_data = [int(num) for num in data]
+update_survey_worksheet(survey_data)
