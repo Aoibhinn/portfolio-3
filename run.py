@@ -47,18 +47,11 @@ def validate_data(values):
     return True
 
 
-def update_survey_worksheet(data):
-    print('Updating survey worksheet...\n')
-    survey_worksheet = SHEET.worksheet('survey')
-    survey_worksheet.append_row(data)
-    print("survey worksheet successfully updated.\n")
-
-
-def update_recovered_worksheet(data):
-    print('Updating recovered worksheet...\n')
-    recovered_worksheet = SHEET.worksheet('recovered')
-    recovered_worksheet.append_row(data)
-    print("Recovered worksheet successfully updated.\n")
+def update_worksheet(data, worksheet):
+    print(f"Updating {worksheet} worksheet...\n")
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f"{worksheet} worksheet updated successfully\n")
 
 
 def calculate_recovered_data(survey_row):
@@ -77,9 +70,9 @@ def calculate_recovered_data(survey_row):
 def main():
     data = get_survey_data()
     survey_data = [int(num) for num in data]
-    update_survey_worksheet(survey_data)
+    update_worksheet(survey_data, "survey")
     new_recovered_data = calculate_recovered_data(survey_data)
-    update_recovered_worksheet(new_recovered_data)
+    update_worksheet(new_recovered_data, "recovered")
 
 
 main()
