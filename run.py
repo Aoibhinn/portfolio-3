@@ -20,9 +20,9 @@ def get_survey_data():
     """
     while True:
 
-        print('Please enter survey data from the most recent respondent')
-        print('Data must be a string value and seperated by  commas')
-        print('Example: 1, Employed, 21 - 24, Female, Yes, Yes, Yes, No\n')
+        print('Please enter the most recent number of confirmed covid cases')
+        print('This data must be for Ireland, Germany, France, Italy, Cyprus, and Sweden')
+        print('Example: 201, 0, 13, 54, 66, 87\n')
 
         data_str = input('Enter your data here: ')
 
@@ -37,9 +37,9 @@ def get_survey_data():
 
 def validate_data(values):
     try:
-        if len(values) != 8:
+        if len(values) != 6:
             raise ValueError(
-                f"Exactly 8 values are required, you provided {len(values)}"
+                f"Exactly 6 values are required, you provided {len(values)}"
             )
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.")
@@ -54,6 +54,18 @@ def update_survey_worksheet(data):
     print("survey worksheet successfully updated.\n")
 
 
-data = get_survey_data()
-survey_data = [int(num) for num in data]
-update_survey_worksheet(survey_data)
+def calculate_recovered_data(survey_row):
+    print('Calculating recovered cases...\n ')
+    death = SHEET.worksheet('confirmed_deaths').get_all_values()
+    death_row = death[-1]
+    print(death_row)
+
+
+def main():
+    data = get_survey_data()
+    survey_data = [int(num) for num in data]
+    update_survey_worksheet(survey_data)
+    calculate_recovered_data(survey_data)
+
+
+main()
