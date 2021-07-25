@@ -58,14 +58,21 @@ def calculate_recovered_data(survey_row):
     print('Calculating recovered cases...\n ')
     death = SHEET.worksheet('confirmed_deaths').get_all_values()
     death_row = death[-1]
-    print(death_row)
+
+    recovered_data = []
+    for death, survey in zip(death_row, survey_row):
+        recovered = survey - int(death)
+        recovered_data.append(recovered)
+    
+    return recovered_data
 
 
 def main():
     data = get_survey_data()
     survey_data = [int(num) for num in data]
     update_survey_worksheet(survey_data)
-    calculate_recovered_data(survey_data)
+    new_recovered_data = calculate_recovered_data(survey_data)
+    print(new_recovered_data)
 
 
 main()
