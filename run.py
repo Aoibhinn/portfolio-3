@@ -54,6 +54,13 @@ def update_survey_worksheet(data):
     print("survey worksheet successfully updated.\n")
 
 
+def update_recovered_worksheet(data):
+    print('Updating recovered worksheet...\n')
+    recovered_worksheet = SHEET.worksheet('recovered')
+    recovered_worksheet.append_row(data)
+    print("Recovered worksheet successfully updated.\n")
+
+
 def calculate_recovered_data(survey_row):
     print('Calculating recovered cases...\n ')
     death = SHEET.worksheet('confirmed_deaths').get_all_values()
@@ -63,7 +70,7 @@ def calculate_recovered_data(survey_row):
     for death, survey in zip(death_row, survey_row):
         recovered = survey - int(death)
         recovered_data.append(recovered)
-    
+
     return recovered_data
 
 
@@ -72,7 +79,7 @@ def main():
     survey_data = [int(num) for num in data]
     update_survey_worksheet(survey_data)
     new_recovered_data = calculate_recovered_data(survey_data)
-    print(new_recovered_data)
+    update_recovered_worksheet(new_recovered_data)
 
 
 main()
